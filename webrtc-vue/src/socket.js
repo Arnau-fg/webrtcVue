@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import { useAppStore } from '@/store/app';
-
+import { comencarConnexio, conectarNouUsuari } from "./comunicationManager.js";
 import router from '@/router'; // Import the router from your project
 // "undefined" means the URL will be computed from the `window.location` object
 /**
@@ -18,7 +18,13 @@ setTimeout(() => {
 }, 500);
 
 
-console.log("sockets", socket);
-
 socket.on("nou usuari", (llistaUsers) => { store.setUsers(llistaUsers); console.log("arribat"); });
+
+socket.on("comencar", () => {
+  comencarConnexio();
+});
+
+socket.on("conectar", (iniciador) => {
+  conectarNouUsuari(iniciador);
+});
 

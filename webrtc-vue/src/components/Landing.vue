@@ -11,6 +11,7 @@
 import { useAppStore } from "../store/app.js";
 import store from "@/store";
 import { socket } from "../socket.js"
+
     export default {
         name: 'Landing',
         components: {

@@ -11,6 +11,7 @@ app.use(cors());
 const server = createServer(app);
 
 const llistaUsers = [];
+let iniciador = null;
 
 const io = new Server(server, {
     cors: {
@@ -22,21 +23,36 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-    llistaUsers.push(socket);
+    
+    
     console.log('a user connected');
     console.log(socket.id);
 
     socket.on('hola', (name) => {
+        if (llistaUsers.length == 0) {
+            socket.emit('comencar');
+        } else {
+            socket.emit('conectar', iniciador)
+        }
+        
         socket.name = name;
         console.log('hola,', name);
 
+        llistaUsers.push(socket);
+
         io.emit('nou usuari', llistaUsers.map((user) => user.name));
-    })
+    });
+
+    socket.on('creat inici', (data) => {
+        console.log('creat inici', data);
+        iniciador = {data, idSocket: socket.id};
+    });
 
     socket.on('disconnect', () => {
         console.log('user disconnected');
         llistaUsers.splice(llistaUsers.indexOf(socket), 1);
         socket.disconnect();
+        console.log(llistaUsers);
     });
 });
 
