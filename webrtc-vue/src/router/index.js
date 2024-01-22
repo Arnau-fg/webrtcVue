@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Landing from '../components/Landing.vue'
+import Lobby from '../components/Lobby.vue'
 import Chat from '../components/Chat.vue'
 
 const router = createRouter({
@@ -11,8 +12,13 @@ const router = createRouter({
       component: Landing
     },
     {
+      path: '/lobby',
+      name: 'Lobby',
+      component: Lobby
+    },
+    {
       path: '/chat',
-      name: 'chat',
+      name: 'Chat',
       component: Chat
     }
   ]

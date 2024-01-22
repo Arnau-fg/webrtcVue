@@ -1,32 +1,45 @@
 <template>
     <div>
-        <h3>Noms: </h3>
-        <div v-for="usuari in usuaris"> {{ usuari }}</div>
+        <h1>Chat</h1>
+        <h2>Write your message</h2>
+        <input type="text" v-model="message" />
+        <button @click="sendMessage()">submit</button>
+
+        <div v-for="message in messages">{{ message.user }}: {{ message.data }}</div>
     </div>
 </template>
 
 <script>
 import { computed } from "vue";
 import { useAppStore } from "../store/app.js";
-import store from "@/store";
+import { dataPeer } from "../comunicationManager.js";
 
-
-
-export default {
-
-    components: {
-    },
-    data() {
-        const pinia = useAppStore();
-        return {
-            usuaris: computed(() => pinia.getUsers())
+    export default {
+        name: 'Chat',
+        components: {
+        },
+        data() {
+            const store = useAppStore();
+            return {
+                message: '',
+                messages: computed(() => store.getMessages())
+            }
+        },
+        methods: {
+            sendMessage() {
+                const store = useAppStore();
+                let message = {
+                    user: store.getName(),
+                    data: this.message
+                }
+                store.newMessage(message);
+                dataPeer(message);
+                this.message = '';
+            }
         }
-    },
-    methods: {
-    },
-    mounted() {
-    },
-}
+    }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

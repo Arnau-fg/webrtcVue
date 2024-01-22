@@ -38,9 +38,18 @@ io.on('connection', (socket) => {
         socket.name = name;
         console.log('hola,', name);
 
+        console.log("llista AVANS de ficar-lo", llistaUsers);
+
         llistaUsers.push(socket);
 
+        console.log("llista DESPRÉS de ficar-lo", llistaUsers);
+
+
         io.emit('nou usuari', llistaUsers.map((user) => user.name));
+    });
+
+    socket.on('answer', (data, socketIniciador) => {
+        io.to(socketIniciador).emit('answer', data);
     });
 
     socket.on('creat inici', (data) => {

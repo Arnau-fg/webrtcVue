@@ -4,6 +4,7 @@ export const useAppStore = defineStore('app', {
   state: () => ({
     name: '',
     users: [],
+    messages: [],
   }),
   actions: {
     setName(name) {
@@ -17,6 +18,12 @@ export const useAppStore = defineStore('app', {
     },
     getUsers() {
       return this.users;
+    },
+    getMessages() {
+      return this.messages;
+    },
+    newMessage(message) {
+      this.messages.push(message);
     },
   },
 })
